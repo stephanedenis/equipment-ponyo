@@ -86,6 +86,7 @@ bash scripts/verify-config.sh
 |----------|-------------|
 | 🚀 **[MEMO.md](MEMO.md)** | **Référence rapide - commandes essentielles** |
 | ⚡ **[QUICK_START.md](docs/QUICK_START.md)** | **Guide 5 minutes pour démarrer** |
+| 🎬 **[CINEMA_OFFLINE.md](docs/CINEMA_OFFLINE.md)** | **Configuration visionnage films (HDD 750GB, H.264, VAAPI)** |
 | 🐧 **[DISTRIBUTIONS.md](docs/DISTRIBUTIONS.md)** | Comparatif distributions Linux |
 | 🔧 **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Résolution de problèmes |
 | ⚙️ **[OPTIMISATIONS_AMD.md](system/OPTIMISATIONS_AMD.md)** | Optimisations spécifiques AMD |
@@ -97,6 +98,7 @@ bash scripts/verify-config.sh
 | Script | Usage | Description |
 |--------|-------|-------------|
 | **`install-complete.sh`** | **Installation** | **Installation complète automatique (one-shot)** |
+| **`setup-cinema.sh`** | **🎬 Cinéma** | **Configuration disque 750GB pour films (interactif)** |
 | `audit-hardware.sh` | Diagnostic | Collecte infos matériel et génère rapport |
 | `optimize-system.sh` | Configuration | Applique optimisations automatiques |
 | `verify-config.sh` | Vérification | Vérifie que tout est bien configuré |
@@ -109,6 +111,9 @@ bash scripts/verify-config.sh
 ```bash
 # Installation complète (une seule commande!)
 sudo bash scripts/install-complete.sh
+
+# 🎬 Configuration cinéma hors-ligne (HDD 750GB)
+sudo bash scripts/setup-cinema.sh
 
 # Vérifier configuration
 bash scripts/verify-config.sh
