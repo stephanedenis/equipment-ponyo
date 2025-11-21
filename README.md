@@ -87,6 +87,7 @@ bash scripts/verify-config.sh
 | 🚀 **[MEMO.md](MEMO.md)** | **Référence rapide - commandes essentielles** |
 | ⚡ **[QUICK_START.md](docs/QUICK_START.md)** | **Guide 5 minutes pour démarrer** |
 | 🎬 **[CINEMA_OFFLINE.md](docs/CINEMA_OFFLINE.md)** | **Configuration visionnage films (HDD 750GB, H.264, VAAPI)** |
+| 🎞️ **[SOURCES_FILMS.md](docs/SOURCES_FILMS.md)** | **Trouver films légaux gratuits en H.264 (Archive.org, YouTube)** |
 | 🐧 **[DISTRIBUTIONS.md](docs/DISTRIBUTIONS.md)** | Comparatif distributions Linux |
 | 🔧 **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Résolution de problèmes |
 | ⚙️ **[OPTIMISATIONS_AMD.md](system/OPTIMISATIONS_AMD.md)** | Optimisations spécifiques AMD |
@@ -99,6 +100,7 @@ bash scripts/verify-config.sh
 |--------|-------|-------------|
 | **`install-complete.sh`** | **Installation** | **Installation complète automatique (one-shot)** |
 | **`setup-cinema.sh`** | **🎬 Cinéma** | **Configuration disque 750GB pour films (interactif)** |
+| `download-films-example.sh` | Téléchargement | Script exemple pour télécharger films H.264 avec yt-dlp |
 | `audit-hardware.sh` | Diagnostic | Collecte infos matériel et génère rapport |
 | `optimize-system.sh` | Configuration | Applique optimisations automatiques |
 | `verify-config.sh` | Vérification | Vérifie que tout est bien configuré |
