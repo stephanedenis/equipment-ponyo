@@ -1,0 +1,24 @@
+# .gitignore pour equipment-ponyo
+
+# Résultats d'audits (contiennent infos système)
+hardware/system-audit-*.md
+
+# Résultats benchmarks
+benchmarks/benchmark-*.md
+
+# Configs personnalisées
+config/ponyo.env
+*.local
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.swp
+*~
+
+# Dossiers système
+.cache/
+.DS_Store
+Thumbs.db

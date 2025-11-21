@@ -1,122 +1,250 @@
-# Equipment Ponyo
+# Equipment Ponyo 🐟
 
-Configuration et documentation système pour le laptop **Ponyo** (HP Pavilion g series).
+Configuration et documentation système pour le laptop **Ponyo** (HP Pavilion g series avec AMD A6 APU).
 
-## 🖥️ Spécifications
+> **Démarrage rapide**: Voir [docs/QUICK_START.md](docs/QUICK_START.md) pour configurer en 5 minutes ⚡
+
+## 🖥️ Spécifications de Ponyo
 
 - **Machine**: HP Pavilion g series
-- **CPU**: AMD A6 (APU)
-  - Architecture: Excavator ou plus ancien (à vérifier)
-  - Cores: 2-4 cores (selon modèle)
-  - Fréquence: ~1.8-2.5 GHz
-- **GPU**: AMD Radeon intégré (APU)
-  - Accélération matérielle: à configurer
-- **RAM**: À déterminer (probablement 4-8 GB DDR3)
-- **Stockage**: HDD/SSD (à vérifier)
-- **OS**: À installer/configurer
-- **Desktop**: À choisir (KDE Plasma, GNOME, XFCE...)
+- **CPU**: **AMD A6-3420M APU** (Llano, 2011)
+  - Architecture: K10.5
+  - Cores: **4 physiques** (pas d'HT)
+  - Fréquence: **800-1500 MHz** (Turbo Core)
+- **GPU**: **AMD Radeon HD 6520G** (TeraScale 2)
+  - Support UVD3 (H.264 hardware decode)
+  - OpenGL 4.2, DirectX 11
+  - Driver: Mesa **radeon** (génération ancienne)
+- **RAM**: **15 GB** DDR3 🎉
+- **Stockage**: **SSD 112 GB** ⚡
 
-## 📁 Structure
+✅ **Configuration excellente** pour bureautique/développement intensif !
+
+📋 **Specs détaillées**: Voir [hardware/PONYO-SPECS.md](hardware/PONYO-SPECS.md)
+
+## 📁 Structure du Projet
 
 ```
 equipment-ponyo/
-├── system/               # Configuration système
-│   ├── SPECIFICATIONS.md           # Specs détaillées (à compléter)
-│   ├── OPTIMISATIONS_AMD.md        # Optimisations spécifiques AMD
-│   └── INSTALLATION.md             # Guide installation OS
-├── hardware/             # Documentation matériel
-└── docs/                 # Documentation générale
+├── scripts/              # Scripts d'automatisation
+│   ├── audit-hardware.sh         # Audit matériel automatique
+│   ├── optimize-system.sh        # Optimisations automatiques
+│   ├── benchmark.sh              # Tests de performances
+│   ├── monitor.sh                # Monitoring temps réel
+│   └── maintenance.sh            # Maintenance système
+├── system/               # Configuration système de base
+│   ├── SPECIFICATIONS.md         # Template specs détaillées
+│   ├── OPTIMISATIONS_AMD.md      # Guide optimisations AMD
+│   └── INSTALLATION.md           # Guide installation OS
+├── config/               # Fichiers de configuration
+│   ├── sysctl-ponyo.conf         # Optimisations kernel
+│   ├── firefox-prefs.js          # Firefox optimisé AMD
+│   └── env-template              # Variables environnement
+├── docs/                 # Documentation complète
+│   ├── QUICK_START.md            # Démarrage rapide (5 min)
+│   ├── TROUBLESHOOTING.md        # Résolution problèmes
+│   └── DISTRIBUTIONS.md          # Comparatif distributions
+├── hardware/             # Audits matériel sauvegardés
+└── benchmarks/           # Résultats benchmarks
 ```
 
-## 🎯 Optimisations Recommandées AMD A6
+## 🚀 Démarrage Rapide
 
-### Préparation
-- [ ] Identifier modèle exact AMD A6 (`lscpu`, `cat /proc/cpuinfo`)
-- [ ] Vérifier RAM installée (`free -h`)
-- [ ] Type stockage (HDD vs SSD)
-- [ ] Génération GPU Radeon
-
-### Système
-- [ ] **Swappiness**: Adapter selon RAM (10 si ≥8GB, 30 si 4GB)
-- [ ] **ZRAM**: Recommandé si ≤4GB RAM
-- [ ] **I/O Scheduler**: 
-  - BFQ pour desktop
-  - mq-deadline si SSD performant
-- [ ] **TRIM**: Si SSD présent
-
-### GPU AMD Radeon
-- [ ] **Driver Mesa**: Installation mesa-dri-drivers
-- [ ] **VAAPI**: Configuration décodage matériel
-  - `libva-mesa-driver` pour AMD
-  - Tester avec `vainfo`
-- [ ] **Vulkan**: mesa-vulkan-drivers
-- [ ] **Variables env**:
-  ```bash
-  export MESA_LOADER_DRIVER_OVERRIDE=radeon  # ou radeonsi
-  export AMD_VULKAN_ICD=RADV
-  ```
-
-### CPU AMD
-- [ ] **Fréquence scaling**: 
-  - schedutil (moderne) ou ondemand
-  - Vérifier support Turbo/Boost
-- [ ] **Firmware AMD**: linux-firmware installé
-
-### Compilation (si utilisé pour dev)
-- [ ] **ccache**: Cache compilation
-- [ ] **Flags AMD**:
-  ```bash
-  export CFLAGS="-march=native -O2 -pipe"
-  export CXXFLAGS="-march=native -O2 -pipe"
-  export MAKEFLAGS="-j$(nproc)"  # Parallélisation selon cores
-  ```
-
-### Économie Énergie (si laptop)
-- [ ] **TLP**: Gestion batterie automatique
-- [ ] **powertop**: Monitoring et optimisation
-- [ ] **CPU governor**: powersave quand sur batterie
-
-## 🔧 Outils Diagnostic
+### Option 1: Installation Automatique (Recommandé) ⚡
 
 ```bash
-# Infos CPU
-lscpu
-cat /proc/cpuinfo | grep "model name"
-
-# Infos GPU
-lspci | grep -i vga
-glxinfo | grep "OpenGL renderer"
-
-# Accélération matérielle
-vainfo  # Décodage vidéo
-vulkaninfo  # Vulkan
-
-# Température
-sensors  # Après sensors-detect
-
-# Performance
-stress -c $(nproc) -t 60s  # Test CPU
+# Cloner et installer en une commande
+git clone https://github.com/stephanedenis/equipment-ponyo.git
+cd equipment-ponyo
+sudo bash scripts/install-complete.sh
 ```
 
-## 📊 Performances Attendues
+**Inclut:** Drivers AMD, VAAPI, TLP, ZRAM, optimisations complètes
 
-AMD A6 (APU) est optimisé pour:
-- ✅ Bureautique légère
-- ✅ Décodage vidéo 1080p (GPU intégré)
-- ⚠️ Compilation moyenne (selon nb cores)
-- ❌ Gaming intensif (GPU intégré limité)
+### Option 2: Installation Manuelle
+
+```bash
+# 1. Cloner le repo
+git clone https://github.com/stephanedenis/equipment-ponyo.git
+cd equipment-ponyo
+
+# 2. Auditer le matériel
+bash scripts/audit-hardware.sh
+
+# 3. Optimiser
+sudo bash scripts/optimize-system.sh
+
+# 4. Vérifier
+bash scripts/verify-config.sh
+```
+
+✅ **Configuration terminée !** Voir [MEMO.md](MEMO.md) pour référence rapide ou [docs/QUICK_START.md](docs/QUICK_START.md) pour guide détaillé.
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| 🚀 **[MEMO.md](MEMO.md)** | **Référence rapide - commandes essentielles** |
+| ⚡ **[QUICK_START.md](docs/QUICK_START.md)** | **Guide 5 minutes pour démarrer** |
+| 🐧 **[DISTRIBUTIONS.md](docs/DISTRIBUTIONS.md)** | Comparatif distributions Linux |
+| 🔧 **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Résolution de problèmes |
+| ⚙️ **[OPTIMISATIONS_AMD.md](system/OPTIMISATIONS_AMD.md)** | Optimisations spécifiques AMD |
+| 📦 **[INSTALLATION.md](system/INSTALLATION.md)** | Guide installation OS |
+| ✅ **[CHECKLIST.md](CHECKLIST.md)** | Suivi configuration étape par étape |
+
+## 🛠️ Scripts Disponibles
+
+| Script | Usage | Description |
+|--------|-------|-------------|
+| **`install-complete.sh`** | **Installation** | **Installation complète automatique (one-shot)** |
+| `audit-hardware.sh` | Diagnostic | Collecte infos matériel et génère rapport |
+| `optimize-system.sh` | Configuration | Applique optimisations automatiques |
+| `verify-config.sh` | Vérification | Vérifie que tout est bien configuré |
+| `benchmark.sh` | Performance | Teste CPU, RAM, disque, GPU |
+| `monitor.sh` | Monitoring | Dashboard temps réel (CPU, RAM, T°) |
+| `maintenance.sh` | Maintenance | Nettoyage système automatique |
+
+**Exemples:**
+
+```bash
+# Installation complète (une seule commande!)
+sudo bash scripts/install-complete.sh
+
+# Vérifier configuration
+bash scripts/verify-config.sh
+
+# Monitoring en direct
+bash scripts/monitor.sh
+
+# Maintenance hebdomadaire
+sudo bash scripts/maintenance.sh
+```
+
+## ⚙️ Configurations Optimisées
+
+| Fichier | Application | Description |
+|---------|-------------|-------------|
+| `config/sysctl-ponyo.conf` | Kernel | Optimisations mémoire, réseau, I/O |
+| `config/firefox-prefs.js` | Firefox | Accélération GPU, VAAPI |
+| `config/env-template` | Shell | Variables environnement AMD |
+
+## 🎯 Optimisations Appliquées sur Ponyo
+
+### ✅ Configuration 100% Optimale
+
+- ✅ **Swappiness**: 10 (optimal pour 15GB RAM) - Actif
+- ✅ **CPU Governor**: schedutil (performances/efficience) - Actif
+- ✅ **GPU Driver**: radeon (Radeon HD 6520G) - Configuré
+- ✅ **VAAPI**: r600 (décodage H.264 matériel) - Actif
+- ✅ **SSD**: 112GB avec **mq-deadline** - Actif
+- ✅ **TRIM**: fstrim.timer - Actif
+- ✅ **ZRAM**: Désactivé (non nécessaire avec 15GB)
+- ✅ **Variables env**: Configurées dans ~/.config/ponyo.env
+
+### 🚀 Script d'Optimisation Ponyo
+
+Configuration spécifique déjà appliquée ! Pour réappliquer:
+
+```bash
+bash scripts/optimize-ponyo.sh
+```
+
+### 📚 Capacités de Ponyo (15GB RAM + 4 cores)
+
+**Excellent pour**:
+
+- ✅ Bureautique intensive (LibreOffice multi-docs)
+- ✅ Développement (VS Code, Docker, multiples projets)
+- ✅ Navigation intensive (dizaines d'onglets)
+- ✅ Vidéo 1080p H.264 (décodage GPU)
+- ✅ Multitâche avancé
+
+**Limites**:
+
+- ⚠️ Vidéo 4K / HEVC/VP9 (GPU 2011)
+- ⚠️ Gaming moderne
+
+📖 **Détails complets**: [hardware/PONYO-SPECS.md](hardware/PONYO-SPECS.md)
+
+## 🔧 Commandes Utiles
+
+### Diagnostic Rapide
+
+```bash
+# Audit complet automatique
+bash scripts/audit-hardware.sh
+
+# Infos système
+lscpu                              # CPU
+free -h                            # RAM
+lsblk                              # Disques
+lspci | grep -i vga                # GPU
+
+# Accélération GPU
+vainfo                             # VAAPI (vidéo)
+glxinfo | grep "OpenGL renderer"   # OpenGL
+
+# Monitoring
+bash scripts/monitor.sh            # Dashboard temps réel
+sensors                            # Températures
+htop                               # Processus
+```
+
+### Tests Performance
+
+```bash
+# Benchmark automatique complet
+bash scripts/benchmark.sh
+
+# Tests manuels
+stress -c $(nproc) -t 60           # Stress CPU
+dd if=/dev/zero of=/tmp/test bs=1M count=500 conv=fdatasync  # Disque
+```
+
+## 🎯 Capacités et Cas d'Usage
+
+Ponyo est optimisé pour:
+
+- ✅ **Bureautique**: LibreOffice, navigation web, email
+- ✅ **Multimédia**: Lecture 1080p (avec VAAPI configuré)
+- ✅ **Développement web**: VS Code, Node.js, Python
+- ✅ **Apprentissage Linux**: Plateforme idéale
+
+Limitations:
+
+- ⚠️ **Compilation lourde**: Utiliser ccache et MAKEFLAGS
+- ⚠️ **Multitâche intensif**: Selon RAM disponible
+- ❌ **Gaming moderne**: GPU intégré limité
+- ❌ **Édition vidéo 4K**: Hardware insuffisant
 
 ## 🔗 Repos Connexes
 
 - [equipment-totoro](https://github.com/stephanedenis/equipment-totoro) - Laptop Intel i7-2670QM
 - [equipment-remarkable](https://github.com/stephanedenis/equipment-remarkable) - Tablette reMarkable
 
-## 📝 Notes
+## 🆘 Support et Contribution
 
-**À compléter lors configuration sur la machine Ponyo:**
-1. Modèle exact AMD A6 (ex: A6-7310, A6-9225...)
-2. RAM installée
-3. Type stockage (HDD/SSD)
-4. Système choisi (openSUSE, Ubuntu, Fedora...)
-5. Desktop environment
+- **Problèmes**: Voir [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- **Questions**: Ouvrir une [issue GitHub](https://github.com/stephanedenis/equipment-ponyo/issues)
+- **Améliorations**: Pull requests bienvenues !
+
+## 📝 Prochaines Étapes
+
+Après installation:
+
+1. ✅ Exécuter `bash scripts/audit-hardware.sh`
+2. ✅ Compléter `system/SPECIFICATIONS.md` avec infos réelles
+3. ✅ Appliquer `sudo bash scripts/optimize-system.sh`
+4. ✅ Configurer Firefox avec `config/firefox-prefs.js`
+5. ✅ Tester avec `bash scripts/benchmark.sh`
+
+Suivi détaillé: [CHECKLIST.md](CHECKLIST.md)
+
+## 📄 Licence
+
+MIT License - Libre d'utilisation et modification.
+
+---
+
+**Fait avec ❤️ pour optimiser Ponyo (AMD A6)** 🐟
 

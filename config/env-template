@@ -1,0 +1,66 @@
+# Configuration Environnement - Ponyo (AMD A6)
+# Template de variables d'environnement optimisées
+# Copier vers ~/.config/ponyo.env et sourcer dans .bashrc
+
+# ====================================
+# GPU AMD Radeon
+# ====================================
+
+# Driver Mesa (adapter selon génération GPU)
+# Ancien: radeon | Moderne: radeonsi
+export MESA_LOADER_DRIVER_OVERRIDE=radeonsi
+
+# Vulkan
+export AMD_VULKAN_ICD=RADV
+export RADV_PERFTEST=aco  # Compilateur shader optimisé
+
+# VAAPI (décodage vidéo)
+export LIBVA_DRIVER_NAME=radeonsi
+export VDPAU_DRIVER=radeonsi
+
+# ====================================
+# Compilation (Développement)
+# ====================================
+
+# Flags optimisés AMD (-march=native détecte auto)
+export CFLAGS="-march=native -O2 -pipe"
+export CXXFLAGS="-march=native -O2 -pipe"
+
+# Parallélisation selon cores
+export MAKEFLAGS="-j$(nproc)"
+
+# ccache (si installé)
+export PATH="/usr/lib64/ccache:$PATH"
+export CCACHE_DIR="$HOME/.ccache"
+
+# ====================================
+# Desktop Environment
+# ====================================
+
+# Wayland (si utilisé)
+# export MOZ_ENABLE_WAYLAND=1
+# export QT_QPA_PLATFORM=wayland
+# export GDK_BACKEND=wayland
+
+# X11 avec EGL
+export MOZ_X11_EGL=1
+
+# ====================================
+# Performances
+# ====================================
+
+# Préchargement bibliothèques (si preload installé)
+# export LD_PRELOAD=/usr/lib/libpreload.so
+
+# ====================================
+# Installation
+# ====================================
+
+# 1. Copier ce fichier:
+#    cp config/env-template ~/.config/ponyo.env
+#
+# 2. Ajouter à ~/.bashrc:
+#    [ -f ~/.config/ponyo.env ] && source ~/.config/ponyo.env
+#
+# 3. Recharger:
+#    source ~/.bashrc
